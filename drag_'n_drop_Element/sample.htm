@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html>
+<html>
+<head>
+<link type="text/css" href="fixed.css" rel="stylesheet" />
+<title>DOM elements drag 'n drop test sample</title>
+<script type="text/javascript" src="dragElement.js">//</script>
+<script type="text/javascript">//<![CDATA[<!--
+
+window.onload = function (){
+
+	var oDiv = document.getElementById('oDiv');
+
+	window.onmousedown = catch_a_Element;
+	window.onmousemove = drag_a_Element;
+	window.onmouseup = drop_a_Element;
+
+}
+
+//-->]]></script>
+</head>
+<body>
+
+<div style="height:1500px;">
+<span style="position:fixed;">画面下方の要素をドラッグ＆ドロップしてみよう。</span>
+</div>
+<div id="oDiv">
+<img alt="sample" title="Drag me!" />
+</div>
+</body>
+</html>
