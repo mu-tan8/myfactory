@@ -6,6 +6,7 @@ div#oDiv {
 	width:320px;
 	height:200px;
 	border:solid 1px blue;
+	border-radius:10px;
 	background-color:#ccffff;
 }
 
@@ -22,6 +23,7 @@ div#oArrowU {
 	top:10px;
 	right:10px;
 	border:solid 1px blue;
+	border-radius:3px;
 }
 
 div#oArrowD {
@@ -29,4 +31,5 @@ div#oArrowD {
 	bottom:10px;
 	right:10px;
 	border:solid 1px blue;
+	border-radius:3px;
 }
