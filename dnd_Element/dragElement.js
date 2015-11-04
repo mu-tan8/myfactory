@@ -7,7 +7,7 @@
 		obj = ev.target.parentElement;
 		if (obj != oDiv){
 			obj = null;	//		移動させる要素でなければ空にする
-			return true;	//		
+			return(ev);	//		イベントハンドラを有効にするために必ず真を返すこと(required to enable Event Handler , return ture)
 		}
 	}
 	drag_a_Element = function (ev){	//	要素を移動させる（ドラッグ）(drag a ElementObject by mousemove)
@@ -18,6 +18,6 @@
 	}
 	drop_a_Element = function (ev){	//	要素を放す（ドロップ）(drop a ElementObject by mouseup)
 		obj = null;
-		return true;
+		return(ev);
 	}
 
