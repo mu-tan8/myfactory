@@ -15,6 +15,16 @@ window.onload = function (){
 	window.onmousemove = drag_a_Element;
 	window.onmouseup = drop_a_Element;
 
+	var oMes = document.getElementById('oMes');
+	var oUp = document.getElementById('oArrowU');
+	var oDown = document.getElementById('oArrowD');
+
+	oUp.onclick= function (){
+		oMes.scrollTop -= 10;
+	}
+	oDown.onclick = function (){
+		oMes.scrollTop += 10;	
+	}
 }
 
 //-->]]></script>
@@ -25,7 +35,15 @@ window.onload = function (){
 <span style="position:fixed;">画面下方の要素をドラッグ＆ドロップしてみよう。</span>
 </div>
 <div id="oDiv">
-<img alt="sample" title="Drag me!" />
+<div id="oMes">
+Drag me!
+<div style="height:200px;width:1px;"></div>
+Shew me?
+</div>
+<div id="oScrollBox">
+<div id="oArrowU">△</div>
+<div id="oArrowD">▽</div>
+</div>
 </div>
 </body>
 </html>
