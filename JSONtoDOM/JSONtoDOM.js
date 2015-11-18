@@ -1,9 +1,13 @@
 //
 //	JSON to DOM
 //
+//				created by mu-tan8(theta)
+//				copyright(C) 2015 mu-tan8(theta)
+//
 //	elements = [{'tagName':'element1',},{'tagName':'element2','attributes':{/*	element2_attribute	*/},'elements':[{/*	element2_children	*/}],text:'text'},];	/*	ordinary elements. required a tagName.	*/
 //	attributes = {'attribute1_name':'attribute1_value','attribute2_name':'attribute2_value',};	/*	has attributes only. don't nesting	*/
 //	text = 'plain text strings';	/*	has text only. don't nesting	*/
+//
 //
 
 /*
