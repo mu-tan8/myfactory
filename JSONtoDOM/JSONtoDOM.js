@@ -6,6 +6,8 @@
 //	text = 'plain text strings';	/*	has text only. don't nesting	*/
 //
 
+/*
+
 var object = {
 	'elements':[{
 		'tagName':'html',
@@ -14,7 +16,11 @@ var object = {
 		},
 		'elements':[
 		{
-			'tagName':'head'
+			'tagName':'head',
+			'elements':[{
+				'tagName':'title',
+				'text':'sample'
+			}]
 		},
 		{
 			'tagName':'body',
@@ -27,40 +33,60 @@ var object = {
 	}]
 };
 
-/*
 
-object to DOM sample.
+object to DOM exsample.
+
+	DOMNodes = object.toDOM() || object.toDOM(document);
+	DOMStrings = object.toDOMString() || object.toDOMString(document);
+
 ___output___
-<html><head></head><body><p>test</p></body></html>
+<html lang="ja"><head><title>sample</title></head><body><p>test</p></body></html>
 
 */
 
-//Alert(object.elements[0].elements[1].elements[0].text);
+/*	DOMObject object.toDOM(documentObject);	*/
 
-(function (document){
-	(function (obj){
+Object.prototype.toDOM = function (oDocument){
+	oDocument = oDocument || document;
+	var oRoot = oDocument.createElement('tmp');
+	(function (obj,oParentNode){
 		for (var p in obj){
 			var prop = obj[p];
 			switch (p){
 				case 'elements' :
 					for (var i = 0;i < prop.length;i++){
-						document.writeln(prop[i].tagName);
-						document.write('<br />');
-						arguments.callee(prop[i]);
+						var oChildNode = oParentNode.appendChild(oDocument.createElement(prop[i].tagName));
+						arguments.callee(prop[i],oChildNode);
+						oChildNode = null;
 					}
 					break;
 				case 'attributes' :
-					for (var k in prop){
-						document.writeln(''+k+'='+prop[k]);
+					for (var a in prop){
+						oParentNode.setAttribute(a,prop[a]);
+						a = null;
 					}
-					document.write('<br />');
 					break;
 				case 'text' :
-					document.writeln(prop);
+					oParentNode.appendChild(oDocument.createTextNode(prop));
 					break;
 				default :
 					break;
 			}
+			prop = p = null;
 		}
-	})(object);
-})(document);
+	})(this,oRoot);
+	return oRoot.childNodes;
+};
+
+/*	String object.toDOMString(documentObject);	*/
+
+Object.prototype.toDOMString = function (oDocument){
+	oDocument = oDocument || document;
+	var oRoot = document.createElement('tmp');
+	var fragment = this.toDOM(oDocument);
+	for (var i = 0;i < fragment.length;i++){
+		oRoot.appendChild(fragment[i]);
+	}
+	fragment = null;
+	return oRoot.innerHTML;
+}

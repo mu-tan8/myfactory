@@ -1,0 +1,31 @@
+<script src="JSONtoDOM.js"></script>
+<script>//<!--
+
+var object = {
+	'elements':[{
+		'tagName':'html',
+		'attributes':{
+			'lang':'ja'
+		},
+		'elements':[
+		{
+			'tagName':'head',
+			'elements':[{
+				'tagName':'title',
+				'text':'sample'
+			}]
+		},
+		{
+			'tagName':'body',
+			'elements':[{
+				'tagName':'p',
+				'text':'test'
+			}]
+		}
+		]
+	}]
+};
+
+	document.writeln(object.toDOMString());
+
+//--></script>
