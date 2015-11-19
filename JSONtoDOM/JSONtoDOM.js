@@ -48,26 +48,43 @@ ___output___
 
 */
 
-/*	DOMObject object.toDOM(documentObject);	*/
+/*	(DOMObject) object.toDOM(documentObject);	*/
 
 Object.prototype.toDOM = function (oDocument){
+
 	oDocument = oDocument || document;
-	var oRoot = oDocument.createElement('tmp');
-	(function (obj,oParentNode){
+
+	if (!oDocument['createElement']){
+		return false;
+	}
+	var oRoot = oDocument.createElement('div');
+	var test = ['appendChild','setAttribute','childNodes'];
+	for (var i = 0;i < test.length;i++){
+		if (!oRoot[test[i]]){
+			return false;
+		}
+	}
+	test = null;
+
+	(function (obj , oParentNode){
 		for (var p in obj){
 			var prop = obj[p];
 			switch (p){
 				case 'elements' :
 					for (var i = 0;i < prop.length;i++){
-						var oChildNode = oParentNode.appendChild(oDocument.createElement(prop[i].tagName));
-						arguments.callee(prop[i],oChildNode);
-						oChildNode = null;
+						if (isNaN(prop[i].tagName)){
+							var oChildNode = oParentNode.appendChild(oDocument.createElement(prop[i].tagName));
+							arguments.callee(prop[i] , oChildNode);
+							oChildNode = null;
+						}
 					}
 					break;
 				case 'attributes' :
 					for (var a in prop){
-						oParentNode.setAttribute(a,prop[a]);
-						a = null;
+						if (isNaN(a) && prop[a]){
+							oParentNode.setAttribute(a , prop[a]);
+							a = null;
+						}
 					}
 					break;
 				case 'text' :
@@ -78,19 +95,30 @@ Object.prototype.toDOM = function (oDocument){
 			}
 			prop = p = null;
 		}
-	})(this,oRoot);
+	})(this , oRoot);
+
 	return oRoot.childNodes;
 };
 
-/*	String object.toDOMString(documentObject);	*/
+/*	(String) object.toDOMString(documentObject);	*/
 
 Object.prototype.toDOMString = function (oDocument){
+
 	oDocument = oDocument || document;
-	var oRoot = document.createElement('tmp');
+
+	var oRoot = document.createElement('div');
+
 	var fragment = this.toDOM(oDocument);
+	if (!fragment.length){
+		return false;
+	}
+
 	for (var i = 0;i < fragment.length;i++){
 		oRoot.appendChild(fragment[i]);
 	}
+
 	fragment = null;
+
 	return oRoot.innerHTML;
 }
+
