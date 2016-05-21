@@ -1,0 +1,19 @@
+<script src="httpscan.js"></script>
+<script>
+	var URL = prompt('RequestURL','http://localhost/public_html/cloud/');
+	if (URL){
+		http(URL)
+		.head({'getHeaders': {'Date' : null}})
+		.then(function(res){
+			console.log('LocalTime:'+new Date().toGMTString());
+			console.log('ServerTime:'+res.head['Date']);
+			dirRequest(URL)
+			.then(function(o){return JSON.stringify(o,null,"  ");})
+			.then(console.log.bind(console))
+			.catch(console.error.bind(console));
+		})
+		.catch(function(res){
+			console.error(JSON.stringify(res));
+		});
+	}
+</script>

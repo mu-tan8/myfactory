@@ -1,0 +1,5 @@
+# AuthUserFile 
+# AuthType Digest
+
+Options +Indexes
+
