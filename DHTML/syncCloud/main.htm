@@ -9,18 +9,10 @@ window.onload = function(){
 		value = values[i].split('=',2);
 		Cookie[value[0]] = value[1];
 	}
-	var URL = Cookie['SyncURL'];
-	for (var i = 0;i < 3;i++){
-		if (sync(URL)){
-			if (confirm('\n'+URL)){
-				document.cookie = 'SyncURL:'+URL+';';
-			}
-			break;
-		}
-		URL = prompt('','http://');
-		if (!URL){
-			break;
-		}
+	var URL = ('SyncURL' in Cookie) ? Cookie['SyncURL'] : prompt('for Sync URL:','http://') ;
+	Sync(URL);
+	if (confirm("Set this URL Cookie?\n"+URL)){
+		document.cookie = 'SyncURL:'+URL+';';
 	}
 }
 </script>
