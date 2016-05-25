@@ -2,7 +2,7 @@
 BrowserFSとWebServerのデータを相互同期するためのシステム（未完成）
 Between BrowserFS and WebServer Data sync system code (unfinished)
 
-* httpscan.js サーバー上のファイルを解析するスクリプト（一部のみ動作） XMLHttpRequest ES5 (defective code)
+* httpscan.js サーバー上のファイルを解析するスクリプト XMLHttpRequest ES5 
 * dirscan.js ブラウザ上のファイルを解析するスクリプト BrowserFS ES5 
 * sync.js ファイル同期システム本体（未完成） main sync function (unfinished code)
 * main.htm   sync call html
