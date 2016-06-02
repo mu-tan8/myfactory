@@ -1,5 +1,10 @@
+/*
+		httpscan.js
+
+			created by mu-tan8
 
-//from new XMLHttpRequest() Example by MDN	https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise 
+			from new XMLHttpRequest() Example by MDN	https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise 
+*/
 
 /*
 opt? argsObject = {

@@ -1,5 +1,10 @@
-//	http://qiita.com/DUxCA/items/5b725cb6359003c53171
+﻿/*
+		dirscan.js
 
+			add mu-tan8
+
+			from http://qiita.com/DUxCA/items/5b725cb6359003c53171
+*/
 
 
 var w = {};
@@ -9,7 +14,8 @@ var fs = w.require("fs");
 var path = w.require("path");
 
 
-
+// fs APIはコールバックを取るので現代的にPromiseに変換する
+// function asynchronous<T, U, V>(fn: (...args: T)=> U, ctx: V): (...args: T)=> Promise<U>
 function asynchronous(fn, ctx){
 	return function _asyncFn(){
 		var args = Array.prototype.slice.call(arguments);
@@ -27,8 +33,10 @@ function asynchronous(fn, ctx){
 
 fs.readdirAsync = asynchronous(fs.readdir, fs);
 fs.statAsync = asynchronous(fs.stat, fs);
+fs.readFileAsync = asynchronous(fs.readFile, fs);
+fs.writeFileAsync = asynchronous(fs.writeFile, fs);
 
-
+// function ls(pathname: string): Promise<[{name: string, stat: fs.Stats}]>
 function ls(pathname){
 	return fs.readdirAsync(pathname)
 	.then(function(names){
@@ -53,6 +61,8 @@ function getFileType(stat){
 		 : "unkown";
 }
 
+// type Dir = {[name: string]: FileType | Dir }
+// tree(pathname: string): Promise<Dir>
 function tree(pathname){
 	return ls(pathname)
 	.then(function(elms){
