@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>event tracer</title>
+<style type="text/css">/*<!--*/
+#blkObject {
+	background-color:lime;
+	border:outset thick gray;
+	width:30%;height:20%;
+	overflow:scroll;
+}
+#viewer , #box {
+	width:100%;
+	height:100%;
+	overflow:scroll;
+}
+.viewbox {
+	position:absolute;
+	bottom:5%;right:1%;
+	width:48%;height:50%;
+	border:solid thin black;
+}
+.listbox {
+	position:absolute;
+	bottom:5%;left:1%;
+	width:48%;height:50%;
+	border:solid thin black;
+}
+/*-->*/</style>
+<script>//<!--
+function toggle(btnID){
+	with (document.getElementById(btnID).style){
+		display = ((display == 'none') ? 'inline' : 'none' );
+	}
+}
+function strSearch(instr){
+	var oAncs = document.getElementsByTagName('a') , o = 0 , oArr = [];
+	for (var i = 0 , n = oAncs.length;i < n;i++){
+		if (('on' + oAncs[i].innerHTML) == instr){oArr[o] = i;o++}
+	}
+	document.getElementById('status').innerHTML = (oArr.length) ? ' '+instr+' is '+oArr.length+' ' : '';
+}
+function numSearch(idx){
+	var oView = document.getElementById('o'+((idx - 0 > -1) ? idx : -1));
+	if (oView){
+		oView = oView.previousSibling;
+		oView.click();
+		oView.focus();
+	}
+}
+//--></script>
+</head>
+<body style="width:98%;height:98%;">
+<br />
+<div class="viewbox">
+event target listenning events: <span id="cols">0</span> items in #o<input id="idx" size="5" onchange="numSearch(this.value)" /><br />
+<div id="viewer"></div>
+</div>
+<div class="listbox">
+event target own events list: <span id="status"></span><br />
+<select id="box" size="10000" onchange="strSearch(this.value)">
+<option selected="selected" disabled="disabled" value="null"></option>
+</select>
+</div>
+<script>//<!--
+var n = 0, i=0;
+var oBlkObject = document.createElement('div');
+oBlkObject.id = 'blkObject';
+for (var dict in oBlkObject){
+	if (dict.match(/^on/i) && dict in document.getElementsByTagName('body')[0]){
+		oBlkObject[dict] = function(e){
+			oViewer = document.getElementById('viewer');
+			textContent = '<div><a href="javascript:void(&quot;toggle(\'#o'+i+'\')&quot;)" onclick="toggle(\'o'+i+'\');this.focus()">'+e.type+'</a><span id="o'+i+'" style="display:none;"> : {';
+			for (var p in e){
+				textContent += (function(){
+					switch (typeof e[p]){
+						case 'function':
+							return '';
+						case 'string':
+							return ' "'+p+'" : "'+e[p]+'" ,';
+						default :
+							return ' "'+p+'" : '+e[p]+' ,';
+					}
+				})();
+			}
+			textContent = textContent.substr(0, textContent.length -1 );
+			textContent += '}</span></div>\n';
+			oViewer.innerHTML += textContent;
+			oViewer.scrollTop = oViewer.scrollHeight;
+			console.log('lines:'+i);
+			console.log(e);
+			document.getElementById('cols').innerHTML = i;
+			i++;
+			//e.preventDefault();e.stopPropagation();
+		}
+		oList = document.createElement('option');
+		oList.value = oList.innerHTML = dict;
+		document.getElementById('box').appendChild(oList);
+		n++;
+	}
+}
+oBlkObject.innerHTML = 'event target block';
+with (document.getElementsByTagName('body')[0]){
+	insertBefore(oBlkObject , firstChild);
+}
+oBlkObject.contentEditable = true;
+oBlkObject.draggable = true;
+document.getElementById('box').size = n;
+//--></script>
+</body>
+</html>
